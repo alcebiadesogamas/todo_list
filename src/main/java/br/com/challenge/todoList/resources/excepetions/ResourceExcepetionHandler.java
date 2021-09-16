@@ -1,4 +1,4 @@
-package br.com.challenge.todoList.services.exceptions;
+package br.com.challenge.todoList.resources.excepetions;
 
 import java.time.Instant;
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.challenge.todoList.resources.excepetions.StandardError;
+import br.com.challenge.todoList.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 public class ResourceExcepetionHandler {

@@ -3,7 +3,10 @@ package br.com.challenge.todoList.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.challenge.todoList.models.Task;
@@ -30,13 +33,21 @@ public class TaskService {
 	}
 	
 	public void delete(Long id) {
-		taskRepository.deleteById(id);
+		try {
+			taskRepository.deleteById(id);
+		} catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}		
 	}
 	
 	public Task update(Long id, Task obj) {
-		Task entity = taskRepository.getById(id);
-		updateData(entity, obj);
-		return taskRepository.save(entity);
+		try {
+			Task entity = taskRepository.getById(id);
+			updateData(entity, obj);
+			return taskRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Task entity, Task obj) {
