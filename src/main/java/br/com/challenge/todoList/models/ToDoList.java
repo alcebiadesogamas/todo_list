@@ -44,6 +44,13 @@ public class ToDoList implements Serializable {
 		this.updated_at = updated_at;
 		this.tasks = tasks;
 	}
+	
+	public ToDoList(Long id, String name, Instant created_at) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.created_at = created_at;
+	}
 
 	public Long getId() {
 		return id;

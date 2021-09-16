@@ -23,4 +23,8 @@ public class ToDoListService {
 		Optional<ToDoList> obj = tdlRepository.findById(id);
 		return obj.get();
 	}
+	
+	public ToDoList insert(ToDoList obj) {
+		return tdlRepository.save(obj);
+	}
 }
