@@ -29,7 +29,7 @@ public class TestConfig implements CommandLineRunner{
 				);
 		ToDoList l2 = new ToDoList(
 				null,
-				"Home Works",
+				"WorkOut",
 				Instant.parse("2019-06-20T19:53:07Z"),
 				null,
 				null

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Task implements Serializable {
@@ -17,11 +19,13 @@ public class Task implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-//	private Long id_toDoList;
 	private String description;
 	private Instant created_at;
 	private Instant updated_at;
-
+	@ManyToOne
+	@JoinColumn(name="todo_list_id")
+	private ToDoList toDoList;
+	
 	public Task() {
 		super();
 	}
@@ -64,6 +68,14 @@ public class Task implements Serializable {
 
 	public void setUpdated_at(Instant updated_at) {
 		this.updated_at = updated_at;
+	}
+	
+	public ToDoList getToDoList() {
+		return toDoList;
+	}
+
+	public void setToDoList(ToDoList toDoList) {
+		this.toDoList = toDoList;
 	}
 
 	public static long getSerialversionuid() {

@@ -3,31 +3,35 @@ package br.com.challenge.todoList.models;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class ToDoList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private Instant created_at;
 	private Instant updated_at;
-	private ArrayList<Task> tasks;
+	
+	@OneToMany(mappedBy="toDoList")
+	private List<Task> tasks = new ArrayList<>();
 
 	public ToDoList() {
 		super();
 	}
 
-	public ToDoList(Long id, String name, Instant created_at, Instant updated_at, ArrayList<Task> tasks) {
+	public ToDoList(Long id, String name, Instant created_at, Instant updated_at, List<Task> tasks) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -68,12 +72,8 @@ public class ToDoList implements Serializable {
 		this.updated_at = updated_at;
 	}
 
-	public ArrayList<Task> getTasks() {
+	public List<Task> getTasks() {
 		return tasks;
-	}
-
-	public void setTasks(ArrayList<Task> tasks) {
-		this.tasks = tasks;
 	}
 
 	public static long getSerialversionuid() {
