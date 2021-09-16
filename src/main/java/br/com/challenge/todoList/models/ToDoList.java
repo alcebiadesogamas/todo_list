@@ -26,7 +26,6 @@ public class ToDoList implements Serializable {
 	private String name;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant created_at;
-	private Instant updated_at;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="toDoList")
@@ -36,12 +35,11 @@ public class ToDoList implements Serializable {
 		super();
 	}
 
-	public ToDoList(Long id, String name, Instant created_at, Instant updated_at, List<Task> tasks) {
+	public ToDoList(Long id, String name, Instant created_at, List<Task> tasks) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.created_at = created_at;
-		this.updated_at = updated_at;
 		this.tasks = tasks;
 	}
 	
@@ -74,14 +72,6 @@ public class ToDoList implements Serializable {
 
 	public void setCreated_at(Instant created_at) {
 		this.created_at = created_at;
-	}
-
-	public Instant getUpdated_at() {
-		return updated_at;
-	}
-
-	public void setUpdated_at(Instant updated_at) {
-		this.updated_at = updated_at;
 	}
 
 	public List<Task> getTasks() {

@@ -32,15 +32,13 @@ public class TestConfig implements CommandLineRunner{
 		Task t1 = new Task(
 				null, 
 				"shake hands",
-				Instant.parse("2019-06-20T19:53:07Z"),
-				null, 
+				false, 
 				l2
 				);
 		Task t2 = new Task(
 				null, 
 				"shake feet",
-				Instant.parse("2019-06-20T19:53:07Z"),
-				null,
+				false,
 				l2
 				);
 		
@@ -48,16 +46,14 @@ public class TestConfig implements CommandLineRunner{
 		Task t3 = new Task(
 				null, 
 				"Math Home work",
-				Instant.parse("2019-06-20T19:53:07Z"),
-				null,
+				false,
 				l1
 				);
 		
 		Task t4 = new Task(
 				null, 
 				"English Home work",
-				Instant.parse("2019-06-20T19:53:07Z"),
-				null,
+				false,
 				l1
 				);
 		

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.challenge.todoList.models.Task;
 import br.com.challenge.todoList.repositories.TaskRepository;
+import br.com.challenge.todoList.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class TaskService {
@@ -21,7 +22,7 @@ public class TaskService {
 	
 	public Task findById(Long id) {
 		Optional<Task> obj = taskRepository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Task insert(Task obj) {
@@ -39,7 +40,6 @@ public class TaskService {
 	}
 
 	private void updateData(Task entity, Task obj) {
-		entity.setDescription(obj.getDescription());
-		entity.setUpdated_at(obj.getUpdated_at());
+		entity.setStatus(obj.getStatus());
 	}
 }
