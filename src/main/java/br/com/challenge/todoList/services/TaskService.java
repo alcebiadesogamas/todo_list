@@ -27,4 +27,19 @@ public class TaskService {
 	public Task insert(Task obj) {
 		return taskRepository.save(obj);
 	}
+	
+	public void delete(Long id) {
+		taskRepository.deleteById(id);
+	}
+	
+	public Task update(Long id, Task obj) {
+		Task entity = taskRepository.getById(id);
+		updateData(entity, obj);
+		return taskRepository.save(entity);
+	}
+
+	private void updateData(Task entity, Task obj) {
+		entity.setDescription(obj.getDescription());
+		entity.setUpdated_at(obj.getUpdated_at());
+	}
 }

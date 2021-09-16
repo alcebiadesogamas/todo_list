@@ -27,4 +27,19 @@ public class ToDoListService {
 	public ToDoList insert(ToDoList obj) {
 		return tdlRepository.save(obj);
 	}
+	
+	public void delete(Long id) {
+		tdlRepository.deleteById(id);
+	}
+	
+	public ToDoList update(Long id, ToDoList obj) {
+		ToDoList entity = tdlRepository.getById(id);
+		updateData(entity, obj);
+		return tdlRepository.save(entity);
+	}
+
+	private void updateData(ToDoList entity, ToDoList obj) {
+		entity.setName(obj.getName());
+		entity.setUpdated_at(obj.getUpdated_at());
+	}
 }
