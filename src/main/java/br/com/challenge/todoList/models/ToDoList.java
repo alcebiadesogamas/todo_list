@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ToDoList implements Serializable {
 
@@ -21,9 +24,11 @@ public class ToDoList implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant created_at;
 	private Instant updated_at;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="toDoList")
 	private List<Task> tasks = new ArrayList<>();
 
@@ -74,6 +79,10 @@ public class ToDoList implements Serializable {
 
 	public List<Task> getTasks() {
 		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	public static long getSerialversionuid() {

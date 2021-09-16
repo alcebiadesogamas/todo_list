@@ -22,20 +22,22 @@ public class Task implements Serializable {
 	private String description;
 	private Instant created_at;
 	private Instant updated_at;
+	
 	@ManyToOne
-	@JoinColumn(name="todo_list_id")
+	@JoinColumn(name="todo_list_id", nullable = false)
 	private ToDoList toDoList;
 	
 	public Task() {
 		super();
 	}
 
-	public Task(Long id, String description, Instant created_at, Instant updated_at) {
+	public Task(Long id, String description, Instant created_at, Instant updated_at, ToDoList toDoList) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
+		this.toDoList = toDoList;
 	}
 
 	public Long getId() {
