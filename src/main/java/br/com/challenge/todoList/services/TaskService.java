@@ -52,5 +52,6 @@ public class TaskService {
 
 	private void updateData(Task entity, Task obj) {
 		entity.setStatus(obj.getStatus());
+		entity.setDescription(obj.getDescription());
 	}
 }
