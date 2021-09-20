@@ -3,6 +3,12 @@
 Este repositorio apresenta uma possível implementação do Back-end de um To Do List (Lista de Tarefas).
 
 Sua implementação foi realizada na linguagem Java.
+
+A seguir está disponível um diagrama que ilustra as entidades da aplicação.
+
+![Diagrama Task List](https://user-images.githubusercontent.com/49372111/133962326-9a6773d0-5898-4420-b588-7f40c7110b6b.jpeg)
+Diagrama Entidade Relacionamento
+
 ## Formas de utilização
 Foi realizado o deploy da API no heroku e se encontra díponível em **https://todo-list-challenge.herokuapp.com**<br>
 Entretanto pode ser testada localmente utilizando se o perfil de dev e/ou test.<br>
