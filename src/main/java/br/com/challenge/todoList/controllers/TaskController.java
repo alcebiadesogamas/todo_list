@@ -3,6 +3,7 @@ package br.com.challenge.todoList.controllers;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.challenge.todoList.dtos.TaskDto;
 import br.com.challenge.todoList.models.Task;
 import br.com.challenge.todoList.models.ToDoList;
 import br.com.challenge.todoList.services.TaskService;
@@ -33,9 +35,10 @@ public class TaskController {
 	private ToDoListService toDoListService;
 	
 	@GetMapping
-	public ResponseEntity<List<Task>> findAll() {
+	public ResponseEntity<List<TaskDto>> findAll() {
 		List<Task> tasks = taskService.findAll();
-		return ResponseEntity.ok().body(tasks);
+		List<TaskDto> listDto = tasks.stream().map(x -> new TaskDto(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@GetMapping(value="/{id}")
