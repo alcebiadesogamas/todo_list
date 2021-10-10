@@ -2,6 +2,7 @@ package br.com.challenge.todoList.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.challenge.todoList.models.Task;
+import br.com.challenge.todoList.models.ToDoList;
 import br.com.challenge.todoList.services.TaskService;
+import br.com.challenge.todoList.services.ToDoListService;
+import br.com.challenge.todoList.services.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -24,6 +28,9 @@ public class TaskController {
 
 	@Autowired
 	private TaskService taskService;
+
+	@Autowired
+	private ToDoListService toDoListService;
 	
 	@GetMapping
 	public ResponseEntity<List<Task>> findAll() {
@@ -37,8 +44,12 @@ public class TaskController {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping
-	public ResponseEntity<Task> insert(@RequestBody Task obj) {
+	@PostMapping(value = "/{toDoListId}")
+	public ResponseEntity<Task> insert(@PathVariable Long toDoListId, @RequestBody Task obj) {
+		ToDoList toDoList = toDoListService.findById(toDoListId);
+		if(toDoList.equals(null))
+			throw new ResourceNotFoundException(toDoListId);
+		obj.setToDoList(toDoList);	
 		obj = taskService.insert(obj);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
@@ -48,13 +59,20 @@ public class TaskController {
 	}
 	
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable Long id) {
 		taskService.delete(id);
-		return ResponseEntity.noContent().build();
+		String msg = "Tarefa removida com sucesso";
+		return ResponseEntity.ok().body(msg);
 	}
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task obj) {
+		Task aux = taskService.findById(id);
+		if (aux.equals(null))
+			throw new ResourceNotFoundException(id);
+		Long toDoListId = aux.getToDoList().getId();
+		ToDoList toDoList = toDoListService.findById(toDoListId);
+		obj.setToDoList(toDoList);
 		obj = taskService.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}

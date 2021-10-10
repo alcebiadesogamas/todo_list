@@ -3,6 +3,7 @@ package br.com.challenge.todoList.models;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Task implements Serializable {
 	private String description;
 	private Boolean status;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="todo_list_id", nullable = false)
 	private ToDoList toDoList;
 	
@@ -35,6 +36,13 @@ public class Task implements Serializable {
 		this.description = description;
 		this.status = status;
 		this.toDoList = toDoList;
+	}
+
+	public Task(Long id, String description, Boolean status) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.status = status;
 	}
 
 	public Long getId() {

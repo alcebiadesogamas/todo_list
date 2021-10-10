@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.challenge.todoList.models.ToDoList;
+import br.com.challenge.todoList.services.TaskService;
 import br.com.challenge.todoList.services.ToDoListService;
 
 @RestController
@@ -24,6 +25,9 @@ public class ToDoListController {
 
 	@Autowired
 	private ToDoListService tdlService;
+
+	@Autowired
+	private TaskService taskService;
 
 	@GetMapping
 	public ResponseEntity<List<ToDoList>> findAll() {
@@ -56,7 +60,7 @@ public class ToDoListController {
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		this.tdlService.delete(id);
-		String msg = "Lista removida com sucesso";
+		String msg = "Lista " + id + " removida com sucesso";
 		return ResponseEntity.ok().body(msg);
 	}
 }
