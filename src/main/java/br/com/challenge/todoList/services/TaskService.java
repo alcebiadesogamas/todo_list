@@ -28,6 +28,10 @@ public class TaskService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
+	public List<Task> findByToDoListId(Long toDoListId) {
+		return taskRepository.findByToDoListId(toDoListId);
+	}
+	
 	public Task insert(Task obj) {
 		return taskRepository.save(obj);
 	}

@@ -2,7 +2,6 @@ package br.com.challenge.todoList.controllers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,13 @@ public class TaskController {
 	@GetMapping
 	public ResponseEntity<List<TaskDto>> findAll() {
 		List<Task> tasks = taskService.findAll();
-		List<TaskDto> listDto = tasks.stream().map(x -> new TaskDto(x)).collect(Collectors.toList());
+		return convertToDto(tasks);
+	}
+
+	private ResponseEntity<List<TaskDto>> convertToDto(List<Task> tasks) {
+		List<TaskDto> listDto = tasks.stream()
+				.map(x -> new TaskDto(x))
+				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 	
@@ -46,19 +51,27 @@ public class TaskController {
 		Task obj = taskService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+		
+	@GetMapping(value="from/{toDoListId}")
+	public ResponseEntity<List<TaskDto>> findByToDoListId(@PathVariable Long toDoListId){
+		List<Task> tasks = taskService.findByToDoListId(toDoListId);
+		return convertToDto(tasks);
+	}
 	
-	@PostMapping(value = "/{toDoListId}")
-	public ResponseEntity<Task> insert(@PathVariable Long toDoListId, @RequestBody Task obj) {
-		ToDoList toDoList = toDoListService.findById(toDoListId);
+	@PostMapping
+	public ResponseEntity<Task> insert(@RequestBody TaskDto obj) {
+		ToDoList toDoList = toDoListService.findById(obj.getToDoListId());
 		if(toDoList.equals(null))
-			throw new ResourceNotFoundException(toDoListId);
-		obj.setToDoList(toDoList);	
-		obj = taskService.insert(obj);
+			throw new ResourceNotFoundException(obj.getToDoListId());
+		Task t = new Task();
+		t.setToDoList(toDoList);
+		t.setDescription(obj.getDescription());
+		t = taskService.insert(t);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getId())
+				.buildAndExpand(t.getId())
 				.toUri();
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).body(t);
 	}
 	
 	@DeleteMapping(value="/{id}")

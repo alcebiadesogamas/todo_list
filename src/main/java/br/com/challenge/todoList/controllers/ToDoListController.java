@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.challenge.todoList.models.ToDoList;
-import br.com.challenge.todoList.services.TaskService;
 import br.com.challenge.todoList.services.ToDoListService;
 
 @RestController
@@ -25,9 +24,6 @@ public class ToDoListController {
 
 	@Autowired
 	private ToDoListService tdlService;
-
-	@Autowired
-	private TaskService taskService;
 
 	@GetMapping
 	public ResponseEntity<List<ToDoList>> findAll() {
